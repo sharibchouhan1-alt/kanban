@@ -209,7 +209,7 @@ function appendRowToTable(uniqueId, functionalArrayPositionIndex) {
     <tr>
         <td>${targetAccessObject.description}</td>
         <td>${targetAccessObject.type}</td>
-        <td>$${targetAccessObject.amnt}</td>
+        <td>₹${targetAccessObject.amnt}</td>
         <td class="text-end">
             <button class="btn btn-sm btn-outline-secondary me-2 edit-btn" data-id="${targetAccessObject.id}" onclick="editTransactionRow('${targetAccessObject.id}')">
                 <i class="bi bi-pencil"></i> Edit
@@ -233,7 +233,7 @@ function renderCompleteTransactionTable() {
         <tr>
             <td>${loopIterationElement.description}</td>
             <td>${loopIterationElement.type}</td>
-            <td>$${loopIterationElement.amnt}</td>
+            <td>₹${loopIterationElement.amnt}</td>
             <td class="text-end">
                 <button class="btn btn-sm btn-outline-secondary me-2 edit-btn" data-id="${loopIterationElement.id}" onclick="editTransactionRow('${loopIterationElement.id}')">
                     <i class="bi bi-pencil"></i> Edit
