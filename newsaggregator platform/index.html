@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global News Today</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #f4f7f6;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        /* Top Navigation Header Styling */
+        .brand-header {
+            font-family: 'Georgia', serif;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+        /* Category Navigation Bar */
+        .category-nav {
+            background-color: #7ba4c4;
+        }
+        .category-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            padding: 10px 15px;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .category-nav .nav-link:hover, 
+        .category-nav .nav-link.active {
+            background-color: #4a7596;
+            color: #ffffff;
+        }
+        /* Card image aspect ratio maintenance */
+        .news-img-placeholder {
+            height: 180px;
+            object-fit: cover;
+            background-color: #e9ecef;
+        }
+        /* Loader and Error States controlled via JS toggling 'd-none' */
+        #loading-state, #error-state {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="py-3 bg-white text-center border-bottom">
+        <h1 class="brand-header text-uppercase m-0 fs-2 text-dark">Global News Today</h1>
+    </header>
+
+    <nav class="category-nav shadow-sm">
+        <div class="container-fluid px-0">
+            <ul class="nav nav-justified" id="category-filters">
+                <li class="nav-item"><a id="eachlink" class="nav-link active" href="#" data-category="general">Top News</a></li>
+                <li class="nav-item"><a id="eachlink" class="nav-link" href="#" data-category="business">Business</a></li>
+                <li class="nav-item"><a id="eachlink" class="nav-link" href="#" data-category="technology">Technology</a></li>
+                <li class="nav-item"><a  id="eachlink" class="nav-link" href="#" data-category="sports">Sports</a></li>
+                <li class="nav-item"><a id="eachlink" class="nav-link" href="#" data-category="health">Health</a></li>
+                <li class="nav-item"><a id="eachlink" class="nav-link" href="#" data-category="entertainment">Entertainment</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container my-4">
+        
+        <div class="row g-3 mb-4 justify-content-between align-items-center">
+            <div class="col-md-7">
+                <form id="search-form" class="input-group">
+                    <span class="input-group-text bg-white border-end-0 text-muted">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text" id="search-input" class="form-control border-start-0 ps-0" placeholder="Search for topics..." required>
+                    <button class="btn btn-success px-4 fw-medium text-uppercase" type="submit" id="srchbtn">Search</button>
+                </form>
+            </div>
+            <div class="col-md-4 col-lg-3 text-end">
+                <select class="form-select border-secondary-subtle" id="dropdown-category-filter">
+                    <option value="" selected>Category Filters</option>
+                    <option value="science" ctgtype="science">Science</option>
+                    <option value="technology" ctgtype="technology">Technology</option>
+                    <option value="business" ctgtype="business">Business</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="loading-state" class="row d-none mb-4">
+            <div class="col-10 mx-auto text-center py-5 bg-white rounded shadow-sm border border-light-subtle">
+                <div class="spinner-border text-secondary mb-3" style="width: 3.5rem; height: 3.5rem;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="text-muted fw-medium m-0">Fetching live updates from NewsAPI...</p>
+            </div>
+        </div>
+
+        <div id="error-state" class="row d-none mb-4">
+            <div class="col-md-8 mx-auto">
+                <div class="alert alert-danger d-flex align-items-center shadow-sm p-4 m-0" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill fs-3 me-3 text-danger"></i>
+                    <div>
+                        <h5 class="alert-heading fw-bold mb-1">API Connection Error</h5>
+                        <p id="error-message-text" class="mb-0 small text-secondary">Unable to process your request. Please check your API limits or network status.</p>
+                    </div>
+                    <button type="button" class="btn-close ms-auto" id="close-error-btn" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="news-container">
+            
+            </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="index.js"></script>
+</body>
+</html>

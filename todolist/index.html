@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow - Kanban Board</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <style>
+        /* Custom Trello-Style Pink & White Theme */
+        body {
+            background: linear-gradient(135deg, #ffdee9 0%, #b5fffc 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: #d81b60 !important;
+        }
+
+        .kanban-board-title {
+            color: #4a4a4a;
+            font-weight: 600;
+        }
+
+        /* Column Styles matching container style */
+        .kanban-column {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            min-height: 550px;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        /* Prevent empty column containers from collapsing to 0px height */
+        .tasks-container {
+            min-height: 250px; 
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Visual Column Headers */
+        .column-todo { border-top: 5px solid #ff4081; }
+        .column-inprogress { border-top: 5px solid #ffb300; }
+        .column-done { border-top: 5px solid #4caf50; }
+
+        .column-title {
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Task Card Styles */
+        .task-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            cursor: grab;
+            border: 1px solid #f1f1f1;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .task-card:active {
+            cursor: grabbing;
+        }
+
+        .task-card:hover {
+            box-shadow: 0 4px 12px rgba(216, 27, 96, 0.15);
+            border-color: #ffc0cb;
+        }
+
+        /* Dynamic Drop Zone Box */
+        .drop-zone-placeholder {
+            border: 2px dashed #d81b60;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            color: #d81b60;
+            background-color: rgba(255, 192, 203, 0.15);
+            font-size: 0.85rem;
+            margin-top: auto; 
+        }
+
+        /* Button Styling */
+        .btn-add-task {
+            background-color: #d81b60;
+            color: white;
+            border: none;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-add-task:hover {
+            background-color: #c2185b;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Drag over effect framework class for your JS */
+        .column-drag-hover {
+            background-color: rgba(255, 192, 203, 0.4) !important;
+            border: 2px dashed #d81b60 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand" href="#"><i class="bi bi-trello me-2"></i>TASKFLOW</a>
+            <div class="d-flex align-items-center">
+                <span class="badge bg-light text-dark border me-3" id="storage-status">
+                    <i class="bi bi-cloud-check text-success me-1"></i> LocalStorage Synced
+                </span>
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100" class="rounded-circle" width="35" height="35" alt="User Profile">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-4">
+        <div class="row mb-4">
+            <div class="col">
+                <h4 class="kanban-board-title">Project Workspace Board</h4>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            
+            <div class="col-12 col-md-4">
+                <div class="kanban-column column-todo" id="todo-column">
+                    <div class="column-title text-secondary">
+                        <span>To Do</span>
+                        <span class="badge bg-secondary-subtle text-secondary rounded-pill" id="todo-count">0 tasks</span>
+                    </div>
+
+                    <button class="btn btn-add-task w-100 mb-3" id="btn-create-task">
+                        New Task <i class="bi bi-plus-lg ms-1"></i>
+                    </button>
+
+                    <div class="tasks-container" id="todo-tasks">
+                        </div>
+
+                    <div class="drop-zone-placeholder mt-auto">
+                        <i class="bi bi-plus-circle d-block mb-1 fs-5"></i>
+                        <span>DROP CARDS HERE / DYNAMIC AREA</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="kanban-column column-inprogress" id="inprogress-column">
+                    <div class="column-title text-secondary">
+                        <span>In Progress</span>
+                        <span class="badge bg-secondary-subtle text-secondary rounded-pill" id="inprogress-count">0 tasks</span>
+                    </div>
+
+                    <div class="tasks-container" id="inprogress-tasks">
+                        </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="kanban-column column-done" id="done-column">
+                    <div class="column-title text-secondary">
+                        <span>Done</span>
+                        <span class="badge bg-secondary-subtle text-secondary rounded-pill" id="done-count">0 tasks</span>
+                    </div>
+
+                    <div class="tasks-container" id="done-tasks">
+                        </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

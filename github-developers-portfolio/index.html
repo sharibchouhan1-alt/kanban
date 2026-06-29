@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Profile & Repositories Analyzer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- Header -->
+    <header>
+      <h1>GitHub DevStats</h1>
+    </header>
+
+    <!-- Search Box Section -->
+    <section class="search-container">
+      <h2 style="font-size: 1.1rem; margin-bottom: 10px; color: #24292f;">Search GitHub Username</h2>
+      <form class="search-form" id="search-form">
+        <input type="text" id="search-input" class="search-input" placeholder="Enter username" required>
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+    </section>
+
+    <!-- Welcome / Empty State View -->
+    <div class="card welcome-view" id="welcome-view">
+      <h3>No Profile Loaded</h3>
+      <p style="margin-top: 5px;">Search for a developer above to analyze their public profile and repository
+        statistics.</p>
+    </div>
+
+    <!-- Loading Indicator View -->
+    <div class="card loading-view" id="loading-view">
+      <p>Fetching developer portfolio stats... Please wait.</p>
+    </div>
+
+    <!-- Error Screen View -->
+    <div class="error-view" id="error-view">
+      <h3 id="error-title">Error</h3>
+      <p id="error-message" style="margin-top: 5px; font-size: 0.9rem;"></p>
+      <button class="btn btn-danger" id="error-action-btn" style="margin-top: 12px;">Retry Search</button>
+    </div>
+
+    <!-- Main Dashboard Section (Hidden by default) -->
+    <div class="dashboard-view" id="dashboard-view">
+      <div class="main-content">
+
+        <!-- Sidebar: Profile Details -->
+        <aside>
+          <div class="card profile-card">
+            <img class="avatar" id="prof-avatar" src="" alt="Avatar">
+            <div class="name" id="prof-name">Name</div>
+            <div class="username"><a href="#" target="_blank" id="prof-link">@username</a></div>
+            <p class="bio" id="prof-bio">Bio description.</p>
+
+            <div class="stats-inline">
+              <div>
+                <span class="stats-number" id="prof-repos-count">0</span>
+                <span>Repos</span>
+              </div>
+              <div>
+                <span class="stats-number" id="prof-followers">0</span>
+                <span>Followers</span>
+              </div>
+              <div>
+                <span class="stats-number" id="prof-following">0</span>
+                <span>Following</span>
+              </div>
+            </div>
+
+            <div class="profile-meta">
+              <div class="meta-row" id="meta-location-row"><strong>Location:</strong> <span id="meta-location"></span>
+              </div>
+              <div class="meta-row" id="meta-blog-row"><strong>Blog:</strong> <a href="#" target="_blank"
+                  id="meta-blog"></a></div>
+              <div class="meta-row" id="meta-company-row"><strong>Company:</strong> <span id="meta-company"></span>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Right Side: Stats & Repositories -->
+        <main>
+
+          <!-- Summary Stats Overview Counters -->
+          <div class="overview-stats">
+            <div class="stat-box">
+              <div class="stat-box-num" id="stat-stars">0</div>
+              <div class="stat-box-lbl">Total Stars</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-box-num" id="stat-forks">0</div>
+              <div class="stat-box-lbl">Total Forks</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-box-num" id="stat-avg-size">0 KB</div>
+              <div class="stat-box-lbl">Avg Repo Size</div>
+            </div>
+          </div>
+
+          <!-- Language Breakdown Progress Bar Card -->
+          <div class="card lang-chart-container">
+            <div class="card-title">Language Breakdown</div>
+            <div class="lang-bar" id="lang-bar">
+              <!-- Rendered via JS -->
+            </div>
+            <div class="lang-legend-grid" id="lang-legend">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Repositories Header / Filter Section -->
+          <div class="card">
+            <div class="repos-bar">
+              <span class="repos-title">Repositories (<span id="repos-count">0</span>)</span>
+
+              <div class="repos-filters">
+                <!-- Search filter -->
+                <input type="text" id="repo-search" class="repo-search" placeholder="Filter by name...">
+                <!-- Type select -->
+                <select id="repo-type-select" class="filter-select">
+                  <option value="all">All Types</option>
+                  <option value="source">Sources</option>
+                  <option value="fork">Forks</option>
+                </select>
+                <!-- Sort select -->
+                <select id="repo-sort-select" class="filter-select">
+                  <option value="stars">Sort by Stars</option>
+                  <option value="forks">Sort by Forks</option>
+                  <option value="updated">Sort by Updated</option>
+                  <option value="name">Sort by Name</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Repos Grid -->
+            <div class="repos-grid" id="repos-grid">
+              <!-- Repos rendered via JS -->
+            </div>
+          </div>
+
+        </main>
+      </div>
+    </div>
+
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

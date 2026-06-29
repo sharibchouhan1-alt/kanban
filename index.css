@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #ffffff;
+  color: #111827;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+}
+
+/* Left Sidebar */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 24px;
+  padding-left: 12px;
+  letter-spacing: -0.01em;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
+}
+
+.nav-btn {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+  text-decoration: none;
+}
+
+.nav-btn:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.nav-btn.active {
+  background-color: #e5e7eb;
+  color: #111827;
+  font-weight: 600;
+}
+
+.sidebar-footer {
+  font-size: 11px;
+  color: #9ca3af;
+  padding-left: 12px;
+  margin-top: auto;
+}
+
+/* Main Iframe Wrapper */
+.main-content {
+  flex-grow: 1;
+  height: 100vh;
+  background-color: #f9fafb;
+  position: relative;
+}
+
+.project-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: #ffffff;
+}
